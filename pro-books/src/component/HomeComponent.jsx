@@ -7,7 +7,10 @@ class HomeComponent extends Component {
     {
         super();
         this.state={
-            booksList:[]
+            booksList:[],
+            likedList:[],
+            dislikedList:[],
+            readingList:[]
         }
     }
     componentDidMount=()=>{
@@ -23,13 +26,62 @@ class HomeComponent extends Component {
         })
         .catch((error)=>console.log(error));
     }
+    addToLikedList(book)
+    {
+        this.state.likedList.push(book)
+        let modifiedList=this.state.likedList;
+        this.setState({
+            likedList:modifiedList
+        });
+    }
+    addToReadingList(book)
+    {
+        this.state.readingList.push(book)
+        let modifiedList=this.state.readingList;
+        this.setState({
+            readingList:modifiedList
+        })
+    }
+    addToDislikedList(book)
+    {
+        this.state.dislikedList.push(book)
+        let modifiedList=this.state.dislikedList;
+        this.setState({
+            dislikedList:modifiedList
+        });
+    }
+    deleteBook(book)
+    {
+        let bookId=book.id;
+        let modifiedList=this.state.booksList.filter((book)=>(book.id!==bookId));
+        let modifiedLikedList=this.state.likedList.filter((book)=>(book.id!==bookId));
+        let modifiedDislikedList=this.state.dislikedList.filter((book)=>(book.id!==bookId));
+        this.setState({
+            booksList:modifiedList,
+            likedList:modifiedLikedList,
+            dislikedList:modifiedDislikedList
+        });
+    }
     render() {
         return (
             <React.Fragment>
             <h1>ProBooks</h1>
+            <h1>Liked Books</h1>
+            <div className="books-display">
+               {this.state.likedList.map((book)=>{
+                  return  <BookComponent book={book} key={book.id} addToLikedList={(book)=>this.addToLikedList(book)} addToDislikedList={(book)=>this.addToDislikedList(book)} addToReadingList={(book)=>this.addToReadingList(book)} deleteBook={(book)=>this.deleteBook(book)}/>})
+                }
+            </div>
+            <h1>DisLiked Books</h1>
+            <div className="books-display">
+               {this.state.dislikedList.map((book)=>{
+                  return  <BookComponent book={book} key={book.id} addToLikedList={(book)=>this.addToLikedList(book)} addToDislikedList={(book)=>this.addToDislikedList(book)} addToReadingList={(book)=>this.addToReadingList(book)} deleteBook={(book)=>this.deleteBook(book)}/>})
+                }
+            </div>
+            <h1>All books</h1>
             <div className="books-display">
                {this.state.booksList.map((book)=>{
-                  return  <BookComponent book={book} key={book.id}/>})
+                  return  <BookComponent book={book} key={book.id} addToLikedList={(book)=>this.addToLikedList(book)} addToDislikedList={(book)=>this.addToDislikedList(book)} addToReadingList={(book)=>this.addToReadingList(book)} deleteBook={(book)=>this.deleteBook(book)}/>})
                 }
             </div>
             </React.Fragment>
