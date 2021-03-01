@@ -56,10 +56,12 @@ class App extends Component{
       let modifiedList=this.state.booksList.filter((book)=>(book.id!==bookId));
       let modifiedLikedList=this.state.likedList.filter((book)=>(book.id!==bookId));
       let modifiedDislikedList=this.state.dislikedList.filter((book)=>(book.id!==bookId));
+      let modifiedReadingList=this.state.readingList.filter((book)=>(book.id!==bookId));
       this.setState({
           booksList:modifiedList,
           likedList:modifiedLikedList,
-          dislikedList:modifiedDislikedList
+          dislikedList:modifiedDislikedList,
+          readingList:modifiedReadingList
       });
   }
   updateBooksList=(booksList)=>{
